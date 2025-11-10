@@ -17,7 +17,7 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests)-> requests
-				.requestMatchers("/css/**","/images/**","/js/**","/strage/**","/").permitAll() //全てのユーザーにアクセスを許可するURL
+				.requestMatchers("/css/**","/images/**","/js/**","/strage/**","/","/signup/**").permitAll() //全てのユーザーにアクセスを許可するURL
 				.anyRequest().authenticated() //上記以外のURLはログインが必要（会員または管理者のどちらでもOK
 			)
 			.formLogin((form)->form
@@ -25,7 +25,7 @@ public class WebSecurityConfig {
 				.loginProcessingUrl("/login")		//　ログインフォームの送信先URL
 				.defaultSuccessUrl("/?loggedIn")	//　ログイン成功時のリダイレクト先URL
 				.failureUrl("/login?error")			//　ログイン失敗時のリダイレクト先URL
-				.permitAll()
+				.permitAll()			//ログイン・ログアウト関連のURLが誰にでもアクセス可能であることを表す
 			)
 			.logout((logout)->logout
 				.logoutSuccessUrl("/?loggedOut")	// ログアウト時のリダイレクト先URL
