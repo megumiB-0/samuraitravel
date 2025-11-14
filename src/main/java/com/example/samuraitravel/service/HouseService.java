@@ -1,7 +1,7 @@
 package com.example.samuraitravel.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.samuraitravel.entity.House;
@@ -16,11 +16,16 @@ public class HouseService {
 		this.houseRepository = houseRepository;
 	}
 	
-	//すべての民宿を取得する
-	public List<House> findAllHouses() {
+	//すべての民宿をページングされた状態で取得する
+	public Page<House> findAllHouses(Pageable pageable) {
 		//データベースの全レコードを取得。JpaRepositoryを継承したメソッド
-		return houseRepository.findAll();
+		return houseRepository.findAll(pageable);
 		
+	}
+	
+	//指定されたキーワードを民宿名に含む民宿を、ページングされた状態で取得する
+	public Page<House> findHousesByNameLike(String keyword, Pageable pageable){
+		return houseRepository.findByNameLike("%" + keyword + "%", pageable);
 	}
 
 }
