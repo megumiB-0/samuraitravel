@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.form.HouseEditForm;
 import com.example.samuraitravel.form.HouseRegisterForm;
 import com.example.samuraitravel.service.HouseService;
 
@@ -84,6 +85,23 @@ public class AdminHouseController {
 		houseService.createHouse(houseRegisterForm);
 		redirectAttributes.addFlashAttribute("successMessage","民宿を登録しました。");
 		return "redirect:/admin/houses";
+	}
+	@GetMapping("/{id}/edit")
+	public String edit(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes, Model model) {
+		Optional<House> optionalHouse = houseService.findHouseById(id);
+		
+		if(optionalHouse.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage","民宿が存在しません。");
+		}
+		
+		House house = optionalHouse.get();
+		// フォームクラスをインスタンス化する
+		HouseEditForm houseEditForm = new HouseEditForm(house.getName(), null, house.getDescription(), house.getPrice(), house.getCapacity(), house.getPostalCode(), house.getAddress(),house.getPhoneNumber());
+		// 生成したインスタンスをビューに渡す
+		model.addAttribute("house",house);
+		model.addAttribute("houseEditForm",houseEditForm);
+		
+		return "admin/houses/edit";
 	}
 
 }	
