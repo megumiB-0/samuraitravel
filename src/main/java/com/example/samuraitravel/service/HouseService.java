@@ -107,6 +107,10 @@ public class HouseService {
 		
 		houseRepository.save(house);		
 	}
+	// 削除機能
+	public void deleteHouse(House house) {
+		houseRepository.delete(house);
+	}
 	
 	// UUIDを使って生成したファイル名を返す（元ファイルの拡張子は残したまま拡張子より前の部分をUUIDに置き換え）
 	public String generateNewFileName(String fileName) {

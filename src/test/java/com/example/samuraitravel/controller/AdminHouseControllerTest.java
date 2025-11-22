@@ -39,7 +39,7 @@ public class AdminHouseControllerTest {
 	public void 未ログインの場合は管理者用の民宿一覧ページからログインページにリダイレクトする() throws Exception{
 		mockMvc.perform(get("/admin/houses"))
 			   .andExpect(status().is3xxRedirection())
-			   .andExpect(redirectedUrl("http://localhost/login"));
+			   .andExpect(redirectedUrl("/login"));
 	}
 	@Test
 	@WithUserDetails("taro.samurai@example.com")
@@ -60,7 +60,7 @@ public class AdminHouseControllerTest {
 	public void 未ログインの場合は管理者用の民宿詳細ページからログインページにリダイレクトする() throws Exception{
 		mockMvc.perform(get("/admin/houses/1"))
 			   .andExpect(status().is3xxRedirection())
-			   .andExpect(redirectedUrl("http://localhost/login"));
+			   .andExpect(redirectedUrl("/login"));
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class AdminHouseControllerTest {
 	public void 未ログインの場合は管理者用の民宿登録ページからログインページにリダイレクトする() throws Exception{
 		mockMvc.perform(get("/admin/houses/register"))
 			   .andExpect(status().is3xxRedirection())
-			   .andExpect(redirectedUrl("http://localhost/login"));
+			   .andExpect(redirectedUrl("/login"));
 	}
 	
 	@Test
@@ -127,7 +127,7 @@ public class AdminHouseControllerTest {
 				.param("address", "テスト住所")
 				.param("phoneNumber", "000-000-000"))
 			.andExpect(status().is3xxRedirection())
-			.andExpect(redirectedUrl("http://localhost/login"));
+			.andExpect(redirectedUrl("/login"));
 		// テスト後のレコード数を取得する
 		long countAfter = houseService.countHouses();
 		
@@ -221,7 +221,7 @@ public class AdminHouseControllerTest {
 	public void 未ログインの場合は管理者用の民宿編集ページからログインページにリダイレクトする() throws Exception{
 		mockMvc.perform(get("/admin/houses/1/edit"))
 			   .andExpect(status().is3xxRedirection())
-			   .andExpect(redirectedUrl("http://localhost/login"));
+			   .andExpect(redirectedUrl("/login"));
 	}
 	
 	@Test
@@ -265,7 +265,7 @@ public class AdminHouseControllerTest {
 				 .param("address", "テスト住所")
 				 .param("phoneNumber", "000-000-000"))
 			   .andExpect(status().is3xxRedirection())
-			   .andExpect(redirectedUrl("http://localhost/login"));
+			   .andExpect(redirectedUrl("/login"));
 		// レコードを更新されていないことを検証する		
 		Optional<House> optionalHouse = houseService.findHouseById(1);
 		assertThat(optionalHouse).isPresent();

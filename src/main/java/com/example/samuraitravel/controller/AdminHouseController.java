@@ -133,5 +133,24 @@ public class AdminHouseController {
 		return"redirect:/admin/houses";
 		
 	}
-						 
+	
+	@PostMapping("/{id}/delete")
+	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes ) {
+		// Nullも含まれる可能性のある{id}のオブジェクトをoptionalHouseに取得
+		Optional<House> optionalHouse = houseService.findHouseById(id);
+		// オブジェクトが空だったら民宿一覧画面にエラーを返す
+		if(optionalHouse.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage","民宿が存在しません。");
+			return "redirect: /admin/houses";
+		}
+		// optionalHouseオブジェクトをhouseに渡す
+		House house =optionalHouse.get();
+		// houseServiceで定義した削除機能を使って、houseオブジェクトを削除する
+		houseService.deleteHouse(house);
+		// 成功メッセージをセットする	
+		redirectAttributes.addFlashAttribute("successMessage","民宿を削除しました。");
+		
+		return "redirect:/admin/houses";
+	// リダイレクトする
+	}
 }
